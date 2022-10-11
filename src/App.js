@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import Header from "./components/Header";
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import Home from "./components/Home";
+import ErrorPage from "./components/ErrorPage";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import BlogPostDetailPage from "./components/BlogPostDetailPage";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="App">
+        <div>
+          <Header />
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/dashboard" element={<Dashboard />} />
+
+            <Route path="*" element={<ErrorPage />} />
+            <Route path="/:id" element={<BlogPostDetailPage />} />
+          </Routes>
+        </div>
+      </div>
+      <ReactQueryDevtools position="bottom-right" initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
